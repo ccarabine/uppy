@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@uppy/dropbox": "^3.0.1",
+    "@uppy/google-drive": "^3.0.1",
+    "@uppy/onedrive": "^3.0.1"
+  }
+}

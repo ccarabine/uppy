@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Uppy</title>
+    <link href="https://releases.transloadit.com/uppy/v3.3.1/uppy.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="drag-drop-area"></div>
+
+    <script type="module">
+      import {Uppy, Dashboard, Tus, Dropbox, OneDrive, RemoteSources} from "https://releases.transloadit.com/uppy/v3.3.1/uppy.min.mjs"
+      
+      var uppy = new Uppy({
+        onBeforeFileAdded: (currentFile, files) => {
+        const modifiedFile = {
+          ...currentFile,
+          //name: `${currentFile.name}__${Date.now()}`,
+          name: `${currentFile.name}`,
+        }
+        console.log(`${modifiedFile.name}`)
+        console.log(`${JSON.stringify(modifiedFile.meta)}`)
+        console.log(`${JSON.stringify(modifiedFile.data)}`)
+        
+        return modifiedFile
+  },}
+      
+      )
+      .use(Dashboard, {
+        inline: true,
+        target: '#drag-drop-area'
+      })
+      .use(Tus, {endpoint: 'http://tusd:1080/files/'})
+      //.use(Tus, {endpoint: 'http://localhost:1080/files/'})
+
+      .use(RemoteSources, {
+      // You can manually specify `sources` here, by default all available are included. 
+      // See docs: https://uppy.io/docs/remote-sources/#sources.
+    
+      sources: ['Dropbox','OneDrive', 'GoogleDrive', 'Url'],
+      companionUrl: 'http://localhost:3020',
+
+    
+   })
+      uppy.on('complete', (result) => {
+        console.log('Upload complete! We’ve uploaded these files:', result.successful)
+      })
+      
+      uppy.on('success', (fileCount) => {
+        console.log(`${fileCount} files uploaded`)
+        
+      })
+//       uppy.on('file-added', (file) => {
+//       console.log('Added file', file.meta.name)
+// })
+
+      
+    </script>
+  </body>
+</html>
