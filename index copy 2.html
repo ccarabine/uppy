@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Uppy</title>
+    <link href="https://releases.transloadit.com/uppy/v3.3.1/uppy.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="drag-drop-area"></div>
+
+    <script type="module">
+      // import {fs} from 'fs';
+     // const fs = require('fs').promises;
+      import {Uppy, Dashboard, Tus, Dropbox, OneDrive, RemoteSources} from "https://releases.transloadit.com/uppy/v3.3.1/uppy.min.mjs"
+      
+      var uppy = new Uppy({
+        onBeforeFileAdded: (currentFile, files) => {
+          console.log(`${currentFile.name}`) 
+        console.log(`${JSON.stringify(modifiedFile.meta)}`)
+        return modifiedFile
+  },}
+      
+      )
+      // .use(OneDrive, { target: Dashboard, companionUrl: 'https://companion.uppy.io/' })
+      .use(Dashboard, {
+        inline: true,
+        target: '#drag-drop-area'
+      })
+      
+      .use(Tus, {endpoint: 'http://tusd:1080/files/'})
+      //.use(Tus, {endpoint: 'http://localhost:1080/files/'})
+
+      .use(RemoteSources, {
+      // You can manually specify `sources` here, by default all available are included. 
+      // See docs: https://uppy.io/docs/remote-sources/#sources.
+    
+      sources: ['Dropbox','OneDrive', 'GoogleDrive', 'Url'],
+      companionUrl: 'http://localhost:3020',
+      
+      }
+   )
+      uppy.on('complete', (result) => {
+        console.log('Upload complete! We’ve uploaded these files:', result.successful)
+      })
+      
+      uppy.on('success', (fileCount, file, result) => {
+        console.log(`${fileCount} files uploaded`)
+        console.log('Upload complete! We’ve uploaded these files:', result.successful)
+        
+      })
+
+      uppy.on('upload-success', (file, response) => {
+        console.log(file.name, response.uploadURL,  file.id, file.source, file.meta)
+        const url = response.uploadURL
+        const fileNameArray = url.split("/");
+        const fileName =fileNameArray[4]
+        console.log(fileName)
+        console.log(file.meta.name)
+        console.log(file.meta.type)
+      })
+     // Node.js program to demonstrate the    
+// fs.rename() method 
+     
+// Import filesystem module
+//const fs = require('fs');
+
+   
+   // List all the filenames before renaming
+  //  getCurrentFilenames();
+      
+  
+      
+   // Function to get current filenames
+   // in directory
+  //  function getCurrentFilenames() {
+  //    console.log("Current filenames:");
+  //   //  fs.readdirSync(__dirname).forEach(file => {
+  //   //    console.log(file);
+  //   //  });
+  //  }
+
+
+
+      //   console.log("here")
+      //   const img = new Image()
+      //   img.width = 300
+      //   img.alt = file.id
+      //   img.src = response.uploadURL
+      //   document.body.appendChild(img)
+      // })
+
+  
+//       uppy.on('file-added', (file) => {
+//       console.log('Added file', file.meta.name)
+// })
+
+      
+    </script>
+  </body>
+</html>
+
+xz\c\zxc\xzc\zcx\zc\cz\xc\zc
